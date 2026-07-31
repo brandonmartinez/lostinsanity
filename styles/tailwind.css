@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ember: #ff7a18;
+  --color-ember-deep: #b3300a;
+  --font-display: "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+}
+
+@layer components {
+  .wrap {
+    @apply mx-auto w-full max-w-3xl px-5;
+  }
+  .section-h {
+    @apply font-display text-2xl font-bold tracking-tight text-zinc-100 sm:text-3xl;
+  }
+  .kicker {
+    @apply font-mono text-xs uppercase tracking-[0.2em] text-ember;
+  }
+  .prose-archive {
+    @apply text-[0.95rem] leading-relaxed text-zinc-400;
+  }
+  .prose-archive p + p {
+    @apply mt-4;
+  }
+  audio {
+    @apply w-full rounded;
+  }
+}
