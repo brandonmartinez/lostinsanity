@@ -56,7 +56,11 @@ Research writeup:
   bonus track. Track 1's file is named **"Welcome to THEM"** — the pre-rename
   recording. The 2005 site listed that track as `UNAVAILABLE`; it is here.
 - Demos are the raw session bounces at 128–320 kbps and are **not** re-encoded.
-  `Never` and `When You're No Where You're Now Here` appear on no release.
+  `Never` appears on no release.
+- **`When You're No Where You're Now Here` is NOT a Lost in Sanity song.** It is
+  by **Josh Dumas**, a member of [blythe](https://blythe-band.com). It was in the
+  same folder on disk and was mistakenly published here on 2026-07-31; removed
+  the same day. Do not re-add it.
 - The promised follow-up full-length ("The Lost in Sanity CD") was never made.
 
 ## Deliberately excluded — do not add these
