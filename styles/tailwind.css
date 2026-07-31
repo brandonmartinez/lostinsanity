@@ -29,7 +29,54 @@
   .prose-archive p + p {
     @apply mt-4;
   }
-  audio {
-    @apply w-full rounded;
+
+  /* ── player ─────────────────────────────────────────────────── */
+  .track-btn {
+    @apply mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-full border border-zinc-700 text-zinc-400 transition;
+  }
+  .track-btn:hover {
+    @apply border-ember bg-ember text-black;
+  }
+  .track.is-active .track-btn {
+    @apply border-ember bg-ember text-black;
+  }
+  .track-title {
+    @apply text-zinc-100;
+  }
+  .track.is-active .track-title {
+    @apply text-ember;
+  }
+  .track-seek {
+    @apply h-0.5 w-full overflow-hidden rounded bg-zinc-800;
+  }
+  .track-fill {
+    @apply h-full w-0 rounded bg-ember;
+  }
+  .track-elapsed {
+    @apply text-zinc-600;
+  }
+  .pl-btn {
+    @apply grid h-9 w-9 shrink-0 place-items-center rounded-full text-zinc-400 transition hover:bg-zinc-800 hover:text-zinc-100;
+  }
+  .pl-btn-main {
+    @apply h-11 w-11 bg-ember text-black hover:bg-ember hover:text-black;
+  }
+  .seek {
+    --pct: 0%;
+    @apply h-1 w-full cursor-pointer appearance-none rounded-full bg-zinc-800;
+    background-image: linear-gradient(
+      to right,
+      var(--color-ember) var(--pct),
+      transparent var(--pct)
+    );
+  }
+  .seek::-webkit-slider-thumb {
+    @apply h-3 w-3 appearance-none rounded-full bg-ember;
+  }
+  .seek::-moz-range-thumb {
+    @apply h-3 w-3 appearance-none rounded-full border-0 bg-ember;
+  }
+  body.has-player {
+    @apply pb-24;
   }
 }

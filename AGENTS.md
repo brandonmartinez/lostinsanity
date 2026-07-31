@@ -44,6 +44,8 @@ archive banner.
 | Logo and bio photos  | `Lost in Sanity/img/`                                         |
 | The EP audio         | `/Volumes/Audio/Personal Music Backup/Lost in Sanity/The Lost in Sanity EP/` |
 | Demo audio           | Same volume, `Demos/`, plus `/Volumes/Audio/Logic/Archives/Lost in Sanity/Demo/` |
+| `The Feast` (2008)   | `/Volumes/Audio/Logic/Archives/Lost in Sanity/The Feast/Bounces/The Feast.mp3` |
+| "What came later" copy | The band's own account of the 2007-08 method, plus ID3 tags and dated jam folders |
 
 Source ZIP: `~/src/_archive/Martinez Media/ZIP Backups/Lost in Sanity.zip`.
 Extracted structured text: `data/site-export.json`.
@@ -62,6 +64,35 @@ Research writeup:
   same folder on disk and was mistakenly published here on 2026-07-31; removed
   the same day. Do not re-add it.
 - The promised follow-up full-length ("The Lost in Sanity CD") was never made.
+  **But the band did come back**, 2007-2008 - see below. Do not write copy
+  saying they "stopped playing in 2005"; the *web site* stopped in 2005.
+
+## The 2007-2008 era ("What came later")
+
+Two years after the last news post the pair started recording again, onto an
+iMac running Logic rather than the old multitrack recorder. Method, in Brandon's
+words: hit record, jam for a while, cut the decent stuff up into an "album."
+About **21 dated session folders** survive (`/Volumes/Audio/Logic/Archives/Lost
+in Sanity/jams/`, 2007-05-20 through 2008-09-13, ~33 GB) and roughly a dozen
+self-assembled records came out of them (658 MB, 122 files, in `Personal Music
+Backup/Lost in Sanity/`).
+
+**Only `The Feast` is published here so far.** 2:52, 320 kbps, bounced
+2008-02-12 22:26 in Logic Pro 8.0.1; tagged *The Feast EP* track 1/3, key C,
+120 BPM, "Heavy Rock"; composers Brandon Martinez and Josh Mogerman, lyrics
+Josh Mogerman. Its ID3 `WXX` frame carries
+`http://www.purevolume.com/lostinsanity`.
+
+Rules for this section:
+
+- **Do not claim a release or an audience.** Nothing from this era was announced
+  anywhere we can cite. The PureVolume link in the file's tags is the only
+  evidence anyone outside the room was meant to hear it, and we cannot prove
+  which songs actually went up.
+- The earlier 3:02 / 128 kbps version of the song (Logic Express 7.2.3, on *The
+  Faces of Today EP*) is **not** the one to publish.
+- Adding more of this era is a size question, not a taste one - it will not fit
+  comfortably in the repo. See the Azure Blob staging note in the vault doc.
 
 ## Deliberately excluded — do not add these
 
@@ -92,8 +123,44 @@ npm run build   # → _site/
   must report zero.**
 - `src/` ships as-is; the build is `cp -R src/. _site/`. Vite is a dev server
   only.
-- The repo carries ~61 MB of audio. That is intentional — the recordings are the
-  point. Do not re-encode or strip them.
+- **No audio ships in this repo.** Every track streams from Azure Blob Storage at
+  `https://martinezmediaclients.blob.core.windows.net/lostinsanity/`. The repo
+  used to carry ~65 MB of MP3s; it is now 2.5 MB. Do not add audio files back.
+
+## Audio & the player
+
+Tracks live in blob storage under three prefixes: `albums/<year>-<slug>/`,
+`masters/`, and `_excluded-covers/` (**never** referenced from the site). The
+container is public at the **blob** access level, not container level, so the
+archive cannot be enumerated by a stranger.
+
+Each track on the page is an `<article class="track">` carrying its own data:
+
+```html
+<article class="track" data-src="<absolute blob URL>" data-title="Hangover Blues" data-seconds="177">
+```
+
+`src/player.js` collects those, wires one shared `Audio()` object, and drives a
+sticky now-playing bar (`#player`). Rules:
+
+- **A track's `data-seconds` must match the printed duration.** It is what the
+  bar shows before metadata loads.
+- Tracks are grouped into playlists by the nearest `[data-playlist]` ancestor;
+  `data-record` on that element is the label shown in the bar. Auto-advance and
+  prev/next stay **inside** one record.
+- Player styles live in `@layer components` in `styles/tailwind.css`. Tailwind
+  utilities always beat that layer regardless of specificity — so a state rule
+  like `.track.is-active .track-title` only works if the element carries **no**
+  competing utility (that is why track `<h3>`s have no `text-zinc-100`).
+- `preload="none"` behaviour is intentional: nothing is fetched until a play
+  button is pressed.
+
+Before publishing, confirm every `data-src` resolves:
+
+```sh
+grep -o 'data-src="[^"]*"' _site/index.html | sed 's/data-src="//;s/"//' \
+  | while read u; do echo "$(curl -sS -o /dev/null -w '%{http_code}' -I "$u") $u"; done
+```
 
 ## Deploy
 
