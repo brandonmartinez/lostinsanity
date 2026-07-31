@@ -55,6 +55,12 @@
   .track-elapsed {
     @apply text-zinc-600;
   }
+  .record-summary {
+    list-style: none;
+  }
+  .record-summary::-webkit-details-marker {
+    display: none;
+  }
   .pl-btn {
     @apply grid h-9 w-9 shrink-0 place-items-center rounded-full text-zinc-400 transition hover:bg-zinc-800 hover:text-zinc-100;
   }
